@@ -1,0 +1,5 @@
+---
+
+- import_tasks: get_vm_states.yml
+
+- import_tasks: provision_vms.yml

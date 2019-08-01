@@ -1,0 +1,9 @@
+---
+
+- name: Gather libvirt environment state information
+  set_fact: 
+    libvirt_env_state: "{{ kvm_config.connection | get_libvirt_env_state }}"
+  become: true
+
+- debug:
+    msg: "{{ libvirt_env_state }}"

@@ -1,0 +1,4 @@
+---
+
+- name: Ensure all vms exist
+  command: "qemu-img create -b {{ base_image }} -f qcow2 /vms/{{  }}.qcow2"
