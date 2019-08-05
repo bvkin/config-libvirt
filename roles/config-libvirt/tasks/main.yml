@@ -1,5 +1,9 @@
 ---
 
-- import_tasks: get_vm_states.yml
+- include_tasks: get_vm_states.yml
 
-- import_tasks: provision_vms.yml
+- include_tasks: provision_vm.yml
+  with_items:
+  - "{{ kvm_config.nodes }}"
+  loop_control:
+    loop_var: vm
