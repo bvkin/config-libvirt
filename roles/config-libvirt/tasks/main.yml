@@ -1,8 +1,15 @@
 ---
 
-- include_tasks: get_vm_states.yml
+- include_tasks: gather_vm_facts.yml
 
-- include_tasks: provision_vm.yml
+- include_tasks: remove_unwanted_vms.yml
+  with_items: "{{ kvm_env_state | dict2items }}"
+  when:
+    - existing_vm.key not in vm_names
+  loop_control:
+    loop_var: existing_vm
+
+- include_tasks: provision_single_vm.yml
   with_items:
   - "{{ kvm_config.nodes }}"
   loop_control:
