@@ -1,0 +1,21 @@
+---
+
+- name: "Dump xml for storage_pool {{ vm.storage_pool }}"
+  command: "virsh pool-dumpxml {{ vm.storage_pool }}"
+  register: storage_pool_xml
+  become: true
+
+- name: "Parse xml for storage pool {{ vm.storage_pool }} to find path"
+  xml: 
+    xmlstring: "{{ storage_pool_xml.stdout }}"
+    xpath: /pool/target/path
+    content: text
+  register: xml_path_results
+
+- name: "Register storage_pool {{ vm.storage_pool }} path"
+  set_fact:  
+    storage_path: "{{ xml_path_results.matches[0].path }}"
+
+- name: "Register path for {{ vm.name }}"
+  set_fact:
+    image_path: "{{ storage_path }}/{{ vm.name }}.qcow2"

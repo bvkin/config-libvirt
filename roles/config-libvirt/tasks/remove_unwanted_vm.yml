@@ -1,0 +1,33 @@
+---
+
+- name: "Dump xml for {{ existing_vm.key }}"
+  command: "virsh dumpxml {{ existing_vm.key }}"
+  register: existing_vm_xml
+  become: true
+
+- name: "Parse xml for {{ existing_vm.key }} to find image path"
+  xml: 
+    xmlstring: "{{ existing_vm_xml.stdout }}"
+    xpath: /domain/devices/disk/source
+    content: attribute
+  register: xml_path_results
+  
+- name: "Register image for {{ existing_vm.key }}"
+  set_fact:  
+    image_path: "{{ xml_path_results.matches[0].source.file }}"
+
+- name: "Destroy {{ existing_vm.key }}"
+  command: "virsh destroy {{ existing_vm.key }}"
+  become: true
+  when: 
+    - existing_vm.value.state == 1
+
+- name: "Undefine {{ existing_vm.key }}"
+  command: "virsh undefine {{ existing_vm.key }}"
+  become: true
+
+- name: "remove {{ existing_vm.key }} image"
+  file:
+    path: "{{ image_path }}"
+    state: absent
+  become: true

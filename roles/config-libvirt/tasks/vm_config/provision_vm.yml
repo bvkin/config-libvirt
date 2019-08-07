@@ -1,0 +1,13 @@
+---
+
+- name: "Provision {{ vm.name }}" 
+  block:
+    - name: "Create image for {{ vm.name }}"
+      command: "qemu-img create -b {{ vm.base_image }} -f qcow2 {{ image_path }}"
+
+    - name: "Define {{ vm.name }}"
+      virt:
+        name: "{{ vm.name }}"
+        command: define 
+        xml: "{{ lookup('template', 'vm_template.xml.j2')}}"
+  become: true

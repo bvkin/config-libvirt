@@ -5,10 +5,6 @@
     kvm_env_state: "{{ kvm_config.connection | get_libvirt_env_state }}"
   become: true
 
-- name: Gather exiting qcow2 files
-  command: "ls {{ kvm_config.storage_pool }}"
-  register: existing_qcow2_files
-
 - name: Gather desired vm names
   set_fact:
     vm_names: "{{ vm_names | default([]) + [vm.name] }}"
