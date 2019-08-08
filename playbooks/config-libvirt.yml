@@ -1,5 +1,0 @@
----
-
-- hosts: kvm_manage_hosts
-  roles:
-    - config-libvirt
