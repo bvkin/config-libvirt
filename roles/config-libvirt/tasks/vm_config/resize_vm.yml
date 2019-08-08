@@ -1,0 +1,29 @@
+---
+
+- name: "Gather {{ vm.name }}.qcow2 file current info"
+  command: "qemu-img info {{ image_path }}"
+  register: image_info
+
+- name: "Convert {{ vm.name }}.qcow2 image_info to dict"
+  set_fact:
+    image_info: "{{ image_info.stdout | from_yaml }}"
+
+- name: "Lookup image size (in gigs)"
+  set_fact:
+    current_image_size: "{{ image_info['virtual size'].split('G')[0] }}"
+
+- name: "Calculate image size increase (if needed)"
+  set_fact:
+    image_size_increase: "{{ (current_image_size|int - vm.disk) * -1  }}"
+
+- name: "Print warning if image bigger than requested size"
+  debug:
+    msg: "{{ [WARNING] - base image is bigger than requested size}}"
+  when:
+    - image_size_increase < 0
+
+- name: "Increase image virtual size of {{ vm.name }} by {{ image_size_increase }}G"
+  command: "qemu-img resize {{ image_path }} +{{ image_size_increase}}G"
+  become: true
+  when:
+  - image_size_increase > 0

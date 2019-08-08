@@ -3,3 +3,7 @@
 - include_tasks: vm_config/register_vm_info.yml
 
 - include_tasks: vm_config/provision_vm.yml
+
+- include_tasks: vm_config/resize_vm.yml
+  when:
+    - vm.disk is defined  
