@@ -11,6 +11,7 @@
 
 - include_tasks: config_single_vm.yml
   when:
+    - vm.name is defined
     - vm.name not in kvm_env_state.keys()
   with_items:
   - "{{ kvm_config.nodes }}"

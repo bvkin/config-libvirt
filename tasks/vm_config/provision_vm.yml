@@ -10,4 +10,7 @@
         name: "{{ vm.name }}"
         command: define 
         xml: "{{ lookup('template', 'vm_template.xml.j2')}}"
+
+    - name: "Add group metadata"
+      command: "virsh metadata {{ vm.name }} --uri qemu:///system --key group --set '<group>{{ vm.group | default(none)}}</group>' --config"
   become: true
