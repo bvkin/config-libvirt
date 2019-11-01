@@ -2,13 +2,13 @@
 
 - name: Gather libvirt environment state information
   set_fact: 
-    kvm_env_state: "{{ kvm_config.connection | get_libvirt_env_state }}"
+    kvm_env_state: "{{ libvirt.connection | get_libvirt_env_state }}"
   become: true
 
 - name: Gather desired vm names
   set_fact:
     vm_names: "{{ vm_names | default([]) + [vm.name] }}"
   with_items:
-    - "{{ kvm_config.nodes }}"
+    - "{{ libvirt.vms }}"
   loop_control:
     loop_var: vm

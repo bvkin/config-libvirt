@@ -1,5 +1,5 @@
 ---
 
-- hosts: localhost
+- hosts: kvm_manage_hosts
   roles:
     - config-libvirt-vms

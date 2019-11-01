@@ -14,6 +14,6 @@
     - vm.name is defined
     - vm.name not in kvm_env_state.keys()
   with_items:
-  - "{{ kvm_config.nodes }}"
+  - "{{ libvirt.vms }}"
   loop_control:
     loop_var: vm
