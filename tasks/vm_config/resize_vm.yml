@@ -1,4 +1,4 @@
 ---
 
 - name: "Resize {{ vm.name }} disk size to {{ vm.disk }}"
-  command: "qemu-img resize /home/bkincaid/libvirt/home_lab_images/master.qcow2 {{ vm.disk }}"
+  command: "qemu-img resize /home/bkincaid/libvirt/home_lab_images/{{ vm.name }}.qcow2 {{ vm.disk }}"

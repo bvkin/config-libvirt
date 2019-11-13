@@ -1,5 +1,10 @@
 <domain type='kvm'>
   <name>{{ vm.name }}</name>
+  {% if vm.node_type is defined %}}
+  <metadata>
+    <node:type xmlns:node="{{ vm.node_type }}"/>
+  </metadata>
+  {% endif %}}
   <memory unit='MiB'>{{ vm.memory }}</memory>
   <vcpu placement='static'>{{ vm.cpus }}</vcpu>
   <os>
