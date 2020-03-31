@@ -2,15 +2,6 @@
 
 - name: "Provision {{ vm.name }}" 
   block:
-    - debug:
-        msg: "{{ vm.base_image }}"
-
-    - debug:
-        msg: "{{ storage_path }}"
-
-    - debug:
-        msg: "qemu-img create -b {{ storage_path }}/{{ vm.base_image }} -f qcow2 {{ image_path }}"
-
     - name: "Create image for {{ vm.name }}"
       command: "qemu-img create -b {{ storage_path }}/{{ vm.base_image }} -f qcow2 {{ image_path }}"
 
